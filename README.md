@@ -1,2 +1,23 @@
 # donation_analytics
 insight coding challenge
+
+Script Name:   donation.py
+Parameters.:   3 parameters. 1) Input file containing data, 2) Input file containing Percentile value and 3)output file
+
+Limitations:   1) No parameters validation/error handling. The program assumes the input files are in the format as expected by the program(as described by the FEC (https://classic.fec.gov/finance/disclosure/metadata/DataDictionaryContributionsbyIndividuals.shtml)
+
+The program manages two dictionaries:
+
+1) Dictionary 1: Name of donor, ZIPCODE:Year of contribution. 
+2) Dictionary 2: CMTYID,ZIP,YEAR,<CNT> :TRANSACTION_AMOUNT
+
+What does the program do?
+
+a) The program opens first two files for reading and third file for writing. If open fails, it abruptly ends with an error message.
+b) Assigns the percentile value to be used by the program from second file and closes immediately.
+c) For every record of the first file/parameter:
+
+  i)    Assigns 6 fields that we need to local variables
+  ii)   Checks in the dictionary if the donor is a repeat donor. If NAME/ZIP as key does not exist in the dictionary, it adds key/year pair to the dictionary and continues
+  iii)  If repeat donor, checks if there are any records in another dictionary for key CMTYID/ZIP/YEAR/1. If no records, writes an entry into dictionary (CMTYID,ZIP,YEAR,1:TRANSACTION_AMT.
+  iv) If a record with the key CMTYID,ZIP,YEAR,1 was found, it reads all records with CMTYID,ZIP,YEAR,<CNT> (WHERE CNT is an integer from 1 to number of records with CMTYID,ZIP,YEAR already found. Calculates tot_amt, number of records and running percentile of contributions received; writes the details to output file.
