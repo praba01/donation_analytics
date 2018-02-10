@@ -1,6 +1,12 @@
 # donation_analytics
 insight coding challenge
 
+Testing: I performed 3 tests;
+ Test 1: 7 records provided by CC
+ Test 2: I created 20 records, verified the results with insight_testsuite
+ Test 3: Downloaded data file from FEC and ran the test for 1million records. I could not upload the data file because the size is 166MB. the runtime was 21seconds. insight testsuite came back with PASS. Of 21 seconds, 16 seconds were spent in reding data due to slow disk.(I determined this by just running a program to read all records).
+
+
 Script Name:   donation.py
 Parameters.:   3 parameters. 1) Input file containing data, 2) Input file containing Percentile value and 3)output file
 
