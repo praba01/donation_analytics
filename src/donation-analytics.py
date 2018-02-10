@@ -33,10 +33,6 @@ for line in input_file_percentile:
 
 input_file_percentile.close()
 
-ROWS      =  1000000
-COLUMNS   =  5
-OUTROWS   =  1000000
-OUTCOLS   =  5
 
 def calc_percentile(curr_list):
         n = len(curr_list)
@@ -64,8 +60,6 @@ def valid_record(CMTY_ID,NAME,ZIP,DT,TRN_AMT,OTHER):
    else:
          return 0
 
-arr_repeat_donor    = np.chararray((ROWS,COLUMNS))
-arr_contrib         = np.chararray((OUTROWS,OUTCOLS))
 input = dict()
 output = dict()
 
