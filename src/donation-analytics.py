@@ -36,13 +36,14 @@ input_file_percentile.close()
 
 def calc_percentile(curr_list):
         n = len(curr_list)
+	curr_list.sort()
      	ord_rank = (float(PERCENTILE_VALUE)/float(100)) * n
         if (ord_rank < 1):
             return curr_list[0]
         ord_rank_dec = ord_rank // 1
 
-	if (ord_rank  - ord_rank_dec > 0.5):
-            idx = ord_rank_dec + 1
+	if (ord_rank  - ord_rank_dec < 0.5):
+            idx = ord_rank_dec - 1
 	else:
             idx = ord_rank_dec 
         return curr_list[int(idx)]
