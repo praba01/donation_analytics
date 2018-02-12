@@ -102,7 +102,7 @@ for line in input_file:
 		input[input_tuple] = YEAR
 		continue
         
-   	if( int(input[input_tuple]) >  int(YEAR) ):
+   	if( int(input[input_tuple]) >=  int(YEAR) ):
 		continue
 
    	if output_tuple not in output:
