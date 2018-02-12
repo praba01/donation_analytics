@@ -7,16 +7,13 @@ import numpy as np
 input_file_name           = sys.argv[1]
 percentile_file_name       = sys.argv[2]
 output_file_name          = sys.argv[3]
-
 try:
-  # open file stream
   input_file = open(input_file_name, "r")
 except IOError:
   print "There was an error opening ", file_name
   sys.exit()
 
 try:
-  # open file stream
   input_file_percentile = open(percentile_file_name, "r")
 except IOError:
   print "There was an error opening ", file_name
@@ -82,6 +79,7 @@ def read_all_rec(CMTYID,YEAR,ZIP):
      	return TOT_AMT, CNT
 
 
+
 for line in input_file:
     lineID         = line.split("|")
     CMTY_ID        = lineID[0]
@@ -92,33 +90,34 @@ for line in input_file:
     TRN_AMT        = lineID[14]
     OTHER          = lineID[15]
 
-    if(valid_record(CMTY_ID,NAME,ZIP5,TRN_DT,TRN_AMT,OTHER) == 0):
+    if(valid_record(CMTY_ID,NAME,ZIP5,TRN_DT,TRN_AMT,OTHER) != 0):
+        continue
 
-	YEAR          = TRN_DT[4:]
-    	output_tuple  = (CMTY_ID,YEAR,ZIP5,1)
-        input_tuple   = (NAME, ZIP5)
+    YEAR          = TRN_DT[4:]
+    output_tuple  = (CMTY_ID,YEAR,ZIP5,1)
+    input_tuple   = (NAME, ZIP5)
 
-    	if (input_tuple not in input): 
-		input[input_tuple] = YEAR
-		continue
+    if (input_tuple not in input): 
+	input[input_tuple] = YEAR
+        continue
         
-   	if( int(input[input_tuple]) >=  int(YEAR) ):
-		continue
+    if( int(input[input_tuple]) >=  int(YEAR) ):
+	continue
 
-   	if output_tuple not in output:
-                rev_record = CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+TRN_AMT+"|"+TRN_AMT+"|1"+"\n"
-       		output_file.write(rev_record)
-	  	output[output_tuple] = TRN_AMT
-		continue
+    if output_tuple not in output:
+        rev_record = CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+TRN_AMT+"|"+TRN_AMT+"|1"+"\n"
+  	output_file.write(rev_record)
+	output[output_tuple] = TRN_AMT
+	continue
 
-	read_all_rec(CMTY_ID,YEAR,ZIP5)
-       	output_tuple         = (CMTY_ID,YEAR,ZIP5,CNT)
-  	output[output_tuple] = TRN_AMT
-	TOT_AMT             += int(TRN_AMT)
-	lst.append(TRN_AMT)
-	percentile           = calc_percentile(lst)
-        rev_record = CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+str(percentile)+"|"+str(TOT_AMT)+"|"+str(CNT)+"\n"
-       	output_file.write(rev_record)
+    read_all_rec(CMTY_ID,YEAR,ZIP5)
+    output_tuple         = (CMTY_ID,YEAR,ZIP5,CNT)
+    output[output_tuple] = TRN_AMT
+    TOT_AMT             += int(TRN_AMT)
+    lst.append(TRN_AMT)
+    percentile           = calc_percentile(lst)
+    rev_record = CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+str(percentile)+"|"+str(TOT_AMT)+"|"+str(CNT)+"\n"
+    output_file.write(rev_record)
 
 input_file.close()
 output_file.close()
