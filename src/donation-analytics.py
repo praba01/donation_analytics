@@ -7,22 +7,45 @@ import numpy as np
 input_file_name           = sys.argv[1]
 percentile_file_name       = sys.argv[2]
 output_file_name          = sys.argv[3]
+
+invalid_records_file      = output_file_name+".invalid"
+first_time_records_file   = output_file_name+".first_time"
+no_previous_year_file     = output_file_name+".no_previous_year"
+
 try:
   input_file = open(input_file_name, "r")
 except IOError:
-  print "There was an error opening ", file_name
+  print "There was an error opening ", input_file_name
   sys.exit()
 
 try:
   input_file_percentile = open(percentile_file_name, "r")
 except IOError:
-  print "There was an error opening ", file_name
+  print "There was an error opening ", percentile_file_name
   sys.exit()
 
 try:
   output_file = open(output_file_name, "w")
 except IOError:
   print "There was an error writing to", output_file_name
+  sys.exit()
+
+try:
+  invalid_file = open(invalid_records_file, "w")
+except IOError:
+  print "There was an error writing to", invalid_records_file
+  sys.exit()
+
+try:
+  first_time_file = open(first_time_records_file, "w")
+except IOError:
+  print "There was an error writing to", first_time_records_file
+  sys.exit()
+
+try:
+  no_previous_year_file = open(no_previous_year_file, "w")
+except IOError:
+  print "There was an error writing to", no_previous_year_file
   sys.exit()
 
 for line in input_file_percentile:
@@ -80,6 +103,7 @@ def read_all_rec(CMTYID,YEAR,ZIP):
 
 
 
+record_id = 0
 for line in input_file:
     lineID         = line.split("|")
     CMTY_ID        = lineID[0]
@@ -90,18 +114,25 @@ for line in input_file:
     TRN_AMT        = lineID[14]
     OTHER          = lineID[15]
 
+    record_id += 1
+    YEAR          = TRN_DT[4:]
     if(valid_record(CMTY_ID,NAME,ZIP5,TRN_DT,TRN_AMT,OTHER) != 0):
+        rev_record = str(record_id)+"|"+CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+TRN_AMT+"|"+TRN_AMT+"|1"+"\n"
+        invalid_file.write(rev_record)
         continue
 
-    YEAR          = TRN_DT[4:]
     output_tuple  = (CMTY_ID,YEAR,ZIP5,1)
     input_tuple   = (NAME, ZIP5)
 
     if (input_tuple not in input): 
 	input[input_tuple] = YEAR
+        rev_record = str(record_id)+"|"+CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+TRN_AMT+"|"+TRN_AMT+"|1"+"\n"
+        first_time_file.write(rev_record)
         continue
         
     if( int(input[input_tuple]) >=  int(YEAR) ):
+        rev_record = str(record_id)+"|"+CMTY_ID+"|"+ZIP5+"|"+YEAR+"|"+TRN_AMT+"|"+TRN_AMT+"|1"+"\n"
+        no_previous_year_file.write(rev_record)
 	continue
 
     if output_tuple not in output:
@@ -121,3 +152,6 @@ for line in input_file:
 
 input_file.close()
 output_file.close()
+first_time_file.close()
+no_previous_year_file.close()
+invalid_file.close()
