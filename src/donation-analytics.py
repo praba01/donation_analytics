@@ -162,11 +162,11 @@ def  write_output_rec(CMTY_ID,YEAR,ZIP5,TRN_AMT):
 
 	global CNT
 	global TOT_AMT
+	global CMTYIDZIP_AMT
         output_tuple                = (CMTY_ID,YEAR,ZIP5,CNT)
 
     	CMTYIDZIP_AMT[output_tuple] = TRN_AMT
     	TOT_AMT                    += int(TRN_AMT)
-
     	lst.append(TRN_AMT)
     	percentile           = calc_percentile(lst)
 
