@@ -4,8 +4,13 @@ insight coding challenge
 Testing: I performed 3 tests;
  Test 1: 7 records provided by CC
  Test 2: I created 20 records, verified the results with insight_testsuite
- Test 3: Downloaded data file from FEC and ran the test for 1million records. I could not upload the data file because the size is 166MB. the runtime was 21seconds. insight testsuite came back with PASS. Of 21 seconds, 16 seconds were spent in reding data due to slow disk.(I determined this by just running a program to read all records).
-
+ Test 3: Downloaded data file from FEC and ran the test for 1million records. I could not upload the data file because the size is 166MB. the runtime was 21seconds. insight testsuite came back with PASS. Of 21 seconds, 16 seconds were spent in reading data due to slow disk.(I determined this by just running a program to read all records).
+ 
+ The program generates 4 output files in the output dir:
+ 1) repeat_donors.txt                       ===> Output file as expected by the Coding Challange
+ 2) repeat_donors.txt.no_previous_year      ===> This contains records with no previous year donations(with record_id)
+ 3) repeat_donors.txt.invalid               ===> This contains invalid records(with record_id)
+ 4) repeat_donors.txt.first_time            ===> This contains first time donors(with record_id)
 
 Script Name:   donation.py
 Parameters.:   3 parameters. 1) Input file containing data, 2) Input file containing Percentile value and 3)output file
@@ -14,8 +19,8 @@ Limitations:   1) No parameters validation/error handling. The program assumes t
 
 The program manages two dictionaries:
 
-1) Dictionary 1: Name of donor, ZIPCODE:Year of contribution. 
-2) Dictionary 2: CMTYID,ZIP,YEAR,<CNT> :TRANSACTION_AMOUNT
+1) Dictionary 1: Name of donor, ZIPCODE:     Year of contribution 
+2) Dictionary 2: CMTYID,ZIP,YEAR,<CNT> :     TRANSACTION_AMOUNT
 
 What does the program do?
 
