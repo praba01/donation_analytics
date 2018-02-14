@@ -27,7 +27,7 @@ def  open_files(file_name,mode):
         	return(open(file_name, mode))
 
 	except IOError:
-        	print "There was an error writing to", file_name
+        	print "There was an error opening file: ", file_name
         	sys.exit()
 
 
