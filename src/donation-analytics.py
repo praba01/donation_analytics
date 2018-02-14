@@ -22,42 +22,21 @@ first_time_records_file        = output_file_name+".first_time"
 no_previous_year_file_name     = output_file_name+".no_previous_year"
 
 
-try:
-	input_file = open(input_file_name, "r")
-except IOError:
-	print "There was an error opening ", input_file_name
-  	sys.exit()
+def  open_files(file_name,mode):
+	try:
+        	return(open(file_name, mode))
 
-try:
-	input_file_percentile = open(percentile_file_name, "r")
-except IOError:
-	print "There was an error opening ", percentile_file_name
-  	sys.exit()
+	except IOError:
+        	print "There was an error writing to", file_name
+        	sys.exit()
 
-try:
-	output_file = open(output_file_name, "w")
-except IOError:
-	print "There was an error writing to", output_file_name
-  	sys.exit()
 
-try:
-	invalid_file = open(invalid_records_file, "w")
-except IOError:
-	print "There was an error writing to", invalid_records_file
-  	sys.exit()
-
-try:
-	first_time_file = open(first_time_records_file, "w")
-except IOError:
-	print "There was an error writing to", first_time_records_file
-  	sys.exit()
-
-try:
-	no_previous_year_file = open(no_previous_year_file_name, "w")
-except IOError:
-	print "There was an error writing to", no_previous_year_file
-  	sys.exit()
-
+input_file                    = open_files(input_file_name,           "r")
+input_file_percentile         = open_files(percentile_file_name,      "r")
+output_file                   = open_files(output_file_name,          "w")
+invalid_file                  = open_files(invalid_records_file,      "w")
+first_time_file               = open_files(first_time_records_file,   "w")
+no_previous_year_file         = open_files(no_previous_year_file_name,"w")
 
 
 def calc_percentile(curr_list):
